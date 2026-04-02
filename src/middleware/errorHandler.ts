@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodError } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 import { ApiError } from '../utils/ApiError';
 import { sendError } from '../utils/response';
 
@@ -15,7 +15,7 @@ export function errorHandler(
   }
 
   if (err instanceof ZodError) {
-    const details = err.issues.map((issue) => ({
+    const details = err.issues.map((issue: ZodIssue) => ({
       field: issue.path.join('.'),
       message: issue.message,
     }));
@@ -23,7 +23,6 @@ export function errorHandler(
     return;
   }
 
-  // Prisma unique constraint
   if (err.message?.includes('Unique constraint')) {
     sendError(res, 409, 'Resource already exists', 'CONFLICT');
     return;

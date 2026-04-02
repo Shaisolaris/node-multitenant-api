@@ -14,9 +14,7 @@ export function sendSuccess<T>(
   meta?: PaginationMeta
 ): Response {
   const body: Record<string, unknown> = { success: true, data };
-  if (meta !== undefined) {
-    body['meta'] = meta;
-  }
+  if (meta !== undefined) body.meta = meta;
   return res.status(statusCode).json(body);
 }
 
@@ -27,14 +25,9 @@ export function sendError(
   code: string,
   details?: unknown
 ): Response {
-  const body: Record<string, unknown> = {
-    success: false,
-    error: { code, message },
-  };
-  if (details !== undefined) {
-    (body['error'] as Record<string, unknown>)['details'] = details;
-  }
-  return res.status(statusCode).json(body);
+  const error: Record<string, unknown> = { code, message };
+  if (details !== undefined) error.details = details;
+  return res.status(statusCode).json({ success: false, error });
 }
 
 export function buildPaginationMeta(
@@ -42,10 +35,5 @@ export function buildPaginationMeta(
   page: number,
   limit: number
 ): PaginationMeta {
-  return {
-    page,
-    limit,
-    total,
-    totalPages: Math.ceil(total / limit),
-  };
+  return { page, limit, total, totalPages: Math.ceil(total / limit) };
 }
