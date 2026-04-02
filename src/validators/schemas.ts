@@ -13,10 +13,7 @@ export const registerTenantSchema = z.object({
   password: z
     .string()
     .min(8)
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain uppercase, lowercase, and number'
-    ),
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password must contain uppercase, lowercase, and number'),
 });
 
 export const loginSchema = z.object({
@@ -51,11 +48,9 @@ export const updateProjectSchema = createProjectSchema.partial().extend({
   status: z.enum(['ACTIVE', 'ARCHIVED']).optional(),
 });
 
-const permissionEnum = z.enum(['read', 'write', 'delete', 'admin']);
-
 export const createApiKeySchema = z.object({
   name: z.string().min(1).max(100),
-  permissions: z.array(permissionEnum).min(1),
+  permissions: z.array(z.enum(['read', 'write', 'delete', 'admin'])).min(1),
   expiresAt: z.string().datetime().optional(),
 });
 
