@@ -1,3 +1,4 @@
+import { DEMO_MODE } from "./demo-data";
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
