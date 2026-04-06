@@ -17,8 +17,8 @@ async function main() {
   // Create demo users
   await prisma.user.createMany({
     data: [
-      { email: `admin-${Date.now()}@demo.com`, passwordHash: "$2a$10$placeholder", role: "ADMIN", tenantId: tenant.id },
-      { email: `dev-${Date.now()}@demo.com`, passwordHash: "$2a$10$placeholder", role: "MEMBER", tenantId: tenant.id },
+      { email: `admin-${Date.now()}@demo.com`, firstName: "Sarah", lastName: "Chen", passwordHash: "$2a$10$placeholder", role: "ADMIN", tenantId: tenant.id },
+      { email: `dev-${Date.now()}@demo.com`, firstName: "James", lastName: "Wilson", passwordHash: "$2a$10$placeholder", role: "MEMBER", tenantId: tenant.id },
     ],
   });
 
