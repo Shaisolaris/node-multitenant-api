@@ -23,7 +23,7 @@
     "rbac",
     "nodejs"
   ],
-  "author": "Solaris Technologies",
+  "author": "Shai A",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^7.6.0",
