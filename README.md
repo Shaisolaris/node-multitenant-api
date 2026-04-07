@@ -128,3 +128,15 @@ All responses follow a consistent envelope:
 - Auth endpoints rate-limited to 10 req/15min separately from global limiter
 - Helmet sets security headers on all responses
 - Request body capped at 10kb to prevent payload attacks
+
+## Why This Over Other Node.js API Boilerplates?
+
+| Feature | This API | Typical Express Starters |
+|---|---|---|
+| Multi-tenancy | ✅ Full tenant isolation with Prisma middleware | ❌ Single-tenant |
+| Docker one-command setup | ✅ docker-compose + setup script | ❌ Manual DB setup |
+| Example API calls | ✅ Ready-to-run curl scripts | ❌ Postman collection at best |
+| JWT + refresh token rotation | ✅ Access + refresh with revocation | ⚠️ Basic JWT only |
+| RBAC | ✅ Owner, Admin, Member, Viewer | ⚠️ No role system |
+| API key system | ✅ Hashed keys with permissions + expiry | ❌ Not included |
+| Seed script | ✅ Demo users + tenant + project | ❌ Empty database |
