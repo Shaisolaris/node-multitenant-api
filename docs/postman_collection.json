@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "node-multitenant-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Multi-tenant REST API with JWT auth, RBAC, projects, API keys"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:3000/api"},
+    {"key": "accessToken", "value": ""},
+    {"key": "refreshToken", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {"name": "Register Tenant", "request": {"method": "POST", "url": "{{baseUrl}}/auth/register", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"tenantName\": \"Demo Corp\", \"tenantSlug\": \"demo-corp\", \"email\": \"admin@demo.com\", \"password\": \"demo123\", \"firstName\": \"Sarah\", \"lastName\": \"Chen\"}"}}},
+        {"name": "Login", "request": {"method": "POST", "url": "{{baseUrl}}/auth/login", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"email\": \"admin@demo.com\", \"password\": \"demo123\", \"tenantSlug\": \"demo-corp\"}"}}},
+        {"name": "Refresh Token", "request": {"method": "POST", "url": "{{baseUrl}}/auth/refresh", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"refreshToken\": \"{{refreshToken}}\"}"}}},
+        {"name": "Logout", "request": {"method": "POST", "url": "{{baseUrl}}/auth/logout", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}}
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {"name": "Get Current User", "request": {"method": "GET", "url": "{{baseUrl}}/users/me", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}},
+        {"name": "List Users", "request": {"method": "GET", "url": "{{baseUrl}}/users", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}},
+        {"name": "Get User by ID", "request": {"method": "GET", "url": "{{baseUrl}}/users/:userId", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}}
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {"name": "List Projects", "request": {"method": "GET", "url": "{{baseUrl}}/projects", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}},
+        {"name": "Create Project", "request": {"method": "POST", "url": "{{baseUrl}}/projects", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}, {"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\": \"Website Redesign\", \"description\": \"Complete redesign of marketing site\"}"}}},
+        {"name": "Get Project", "request": {"method": "GET", "url": "{{baseUrl}}/projects/:projectId", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}},
+        {"name": "Update Project", "request": {"method": "PATCH", "url": "{{baseUrl}}/projects/:projectId", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}, {"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\": \"Updated Name\", \"status\": \"ARCHIVED\"}"}}},
+        {"name": "Delete Project", "request": {"method": "DELETE", "url": "{{baseUrl}}/projects/:projectId", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}}
+      ]
+    },
+    {
+      "name": "API Keys",
+      "item": [
+        {"name": "List API Keys", "request": {"method": "GET", "url": "{{baseUrl}}/apikeys", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}},
+        {"name": "Create API Key", "request": {"method": "POST", "url": "{{baseUrl}}/apikeys", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}, {"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\": \"CI/CD Key\", \"permissions\": [\"read:projects\", \"write:projects\"]}"}}},
+        {"name": "Revoke API Key", "request": {"method": "DELETE", "url": "{{baseUrl}}/apikeys/:keyId", "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}]}}
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {"name": "Health Check", "request": {"method": "GET", "url": "http://localhost:3000/health"}}
+      ]
+    }
+  ]
+}
